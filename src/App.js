@@ -181,6 +181,7 @@ function App() {
 }
 
 
+<<<<<<< HEAD
 export default App;
 
 <<<<<<< HEAD
@@ -211,3 +212,6 @@ export default App;
 // Allow for the private list to be authenticated through google
 =======
 >>>>>>> 502e87041e7ab1518de53ecf4c7576b90374dc26
+=======
+export default App;
+>>>>>>> e82aeb2257db5e25e5a954a5b14984af462a401e

@@ -1,6 +1,9 @@
 import "./App.scss";
 import Header from "./components/Header";
 import SearchResults from "./components/SearchResults";
+import { FaBeer } from 'react-icons/fa';
+
+
 
 function App() {
   return (
@@ -8,6 +11,7 @@ function App() {
       <Header />
       <SearchResults />
     </div>
+<<<<<<< HEAD
   );
 }
 
@@ -38,3 +42,9 @@ export default App;
 // Add a chart to show cost trends across multiple lists
 // Pagination for search results
 // Allow for the private list to be authenticated through google
+=======
+  )
+}
+
+export default App;
+>>>>>>> eff80333bbd864d1e65762604191baea8ef86bec

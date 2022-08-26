@@ -1,30 +1,29 @@
-import { useState } from "react";
-import { getDatabase, push, ref, remove, set } from 'firebase/database';
-import firebase from './Firebase';
-
+import { useState, useEffect } from "react";
+import { getDatabase, push, ref, remove, set, update, onValue } from 'firebase/database';
+import {firebase, auth} from './Firebase';
 
 const AddShow = (props) => {
-
     const [userInput, setUserInput] = useState("");
 
     const handleInputChange = (e) => {
         setUserInput(e.target.value)
+    };
+
+    const moreUserSettings = {
+        name: props.ticket.name,
+        budget: props.budget,
+        min: props.ticket.max,
+        max: props.ticket.min,
     }
 
     const myList = () => {
         // Create a new post reference with an auto-generated id
         const db = getDatabase();
-        const postListRef = ref(db, props.name);
+        const postListRef = ref(db, `/${props.currentUser}/${props.budget}/${props.name}`);
         // console.log(postListRef._path.pieces_[0])
         const newPostRef = push(postListRef);
-        set(newPostRef, {
-            name: props.ticket.name,
-            budget: props.budget,
-            min: props.ticket.max,
-            max: props.ticket.min
-        });
-    }
-
+        update(newPostRef, moreUserSettings)
+    };
     // const handleSubmit = () => {
     //     const database = getDatabase(firebase);
     //     const dbRef = ref(database);
@@ -36,9 +35,9 @@ const AddShow = (props) => {
         const database = getDatabase(firebase)
         const dbRef = ref(database)
         remove(dbRef, props.ticket)
-    }
+    };
 
-    return (
+   return (
         <section>
             <div className="wrapper">
                 <button onClick={(e) => {
@@ -54,6 +53,6 @@ const AddShow = (props) => {
             </div>
         </section>
     )
-}
 
+}
 export default AddShow;

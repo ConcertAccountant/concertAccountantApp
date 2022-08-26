@@ -178,14 +178,12 @@ const SearchResults = () => {
                             }        
                         </div>
                         <div className="box5">
-
-                            {data.id === ticket.id && getMoreInfo()}
                             {/* event listener on our button to send the corresponding id stored in state as well as changing our moreInfo state to true */}
                             <button onClick={(e) => {
                             e.preventDefault();    
-                            setMoreInfo(true);
+                            setMoreInfo(!moreInfo);
                             setId(data.id)
-                            // console.log(ticket.url)
+
                             }}
                             >More info
                             </button>
@@ -193,6 +191,9 @@ const SearchResults = () => {
                             <AddShow ticket={ticket} name={name} budget={budget}/>
                         </div>
                     </li>
+                    <div className="moreInfoDiv">
+                      {data.id === ticket.id && moreInfo ? getMoreInfo() : null}
+                    </div>
                 </ul>
             </div>
         </section>

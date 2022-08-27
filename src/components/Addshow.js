@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getDatabase, push, ref, remove, set } from "firebase/database";
-import { firebase } from "./Firebase";
+import firebase from "./Firebase";
 
 const AddShow = (props) => {
   const [userInput, setUserInput] = useState("");

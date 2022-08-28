@@ -10,10 +10,14 @@ function App() {
     <div>
       <Header />
       <Login />
+<<<<<<< HEAD
       <div className="userHeading">
         <h2>Personal list</h2>
       </div>
       <GetList />
+=======
+      {/* <GetList /> */}
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
       {/* <SearchResults /> */}
     </div>
   );

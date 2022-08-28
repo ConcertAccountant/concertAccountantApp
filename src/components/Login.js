@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import { auth } from "./Firebase";
 import SearchResults from "./SearchResults";
+import GetPrivateList from "./GetPrivateList";
+import GetList from "./GetList";
 
 function Login() {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -16,11 +18,20 @@ function Login() {
 
   const [user, setUser] = useState({});
 
+<<<<<<< HEAD
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
   }, []);
+=======
+    useEffect (() => { onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    })
+    }, [user]);
+
+    console.log(user.uid);
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
 
   const register = async () => {
     try {
@@ -85,6 +96,7 @@ function Login() {
           <button onClick={login}>login</button>
         </div>
 
+<<<<<<< HEAD
         <div>
           <h3>User logged in</h3>
           {user?.email}
@@ -94,6 +106,19 @@ function Login() {
       <SearchResults user={user} />
     </>
   );
+=======
+            <div>
+                <h3>User logged in</h3>
+                {user?.email}
+                <button onClick={logout}>logout</button>
+            </div>
+        </div><SearchResults user={user} />
+        <GetList />
+        <GetPrivateList user={user} />
+        </>
+
+    )
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
 }
 
 export default Login;

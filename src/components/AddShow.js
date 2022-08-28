@@ -12,8 +12,16 @@ const AddShow = (props) => {
   const moreUserSettings = {
     name: props.ticket.name,
     max: props.ticket.max,
+<<<<<<< HEAD
     min: props.ticket.min,
   };
+=======
+    min: props.ticket.min
+  }
+
+
+  console.log(moreUserSettings)
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
 
   console.log(moreUserSettings);
 
@@ -28,13 +36,6 @@ const AddShow = (props) => {
     update(newPostRef, moreUserSettings);
   };
 
-  // const handleSubmit = () => {
-  //     const database = getDatabase(firebase);
-  //     const dbRef = ref(database);
-  //     push(dbRef, props.ticket);
-  //     // setUserInput("");
-  // }
-
   const handleRemove = () => {
     const database = getDatabase(firebase);
     const dbRef = ref(database);
@@ -47,7 +48,6 @@ const AddShow = (props) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            // handleSubmit();
             myList();
           }}
         >
@@ -57,8 +57,7 @@ const AddShow = (props) => {
           onClick={(e) => {
             e.preventDefault();
             handleRemove();
-          }}
-        >
+          }}>
           remove
         </button>
       </div>

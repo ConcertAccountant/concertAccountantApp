@@ -50,6 +50,7 @@ const SearchResults = (props) => {
         keyword: keyWord,
         size: 10,
       },
+<<<<<<< HEAD
     })
       .then((response) => {
         const dataTest = response.data._embedded.events;
@@ -62,6 +63,17 @@ const SearchResults = (props) => {
   };
 
   //use effect axios call to store our api in the id state
+=======
+    }).then((response) => {
+      const dataTest = response.data._embedded.events;
+      setData(dataTest);
+    }).catch((error) => {
+      alert(error.message)
+    });
+  } 
+  
+    //use effect axios call to store our api in the id state
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
   useEffect(() => {
     axios({
       url: `https://app.ticketmaster.com/discovery/v2/events/${id}`,

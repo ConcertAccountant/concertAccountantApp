@@ -36,4 +36,8 @@ function Userlist({ e }) {
   );
 }
 
+<<<<<<< HEAD
 export default Userlist;
+=======
+export default Userlist;
+>>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8

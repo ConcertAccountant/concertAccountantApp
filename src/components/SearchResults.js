@@ -2,9 +2,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddShow from "./AddShow";
+import Login from "./Login";
 import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
-const SearchResults = () => {
+const SearchResults = (props) => {
   const [ticket, setTicket] = useState({
     name: "",
     id: "",
@@ -15,6 +16,7 @@ const SearchResults = () => {
     address: "",
     url: "",
   });
+
   const [data, setData] = useState([]);
 
   const [keyWord, setKeyWord] = useState("");
@@ -30,6 +32,8 @@ const SearchResults = () => {
   const [name, setName] = useState("");
 
   const [budget, setBudget] = useState(0);
+
+  const [currentUser, setCurrentUser] = useState("");
 
   //api key
   const key = `0TsZKUciU5HKm4ylnIBkwVoD8U4aPAgY`;
@@ -48,9 +52,9 @@ const SearchResults = () => {
       },
     })
       .then((response) => {
-        //   console.log(response)
         const dataTest = response.data._embedded.events;
         setData(dataTest);
+        console.log(data);
       })
       .catch((error) => {
         alert(error.message);
@@ -104,9 +108,9 @@ const SearchResults = () => {
         <li>
           <p>{ticket.address}</p>
         </li>
-        {/* <li>
+        <li>
           <p>{ticket.timezone}</p>
-        </li> */}
+        </li>
         <li>
           <p>{ticket.time}</p>
         </li>
@@ -117,7 +121,7 @@ const SearchResults = () => {
         ) : (
           <li>
             <a href={ticket.url} target="_blank" rel="noreferrer">
-              See Tickets
+              Ticket
             </a>
           </li>
         )}
@@ -137,7 +141,7 @@ const SearchResults = () => {
                   <div className="box2">
                     <img src={data.images[0].url} alt={data.name} />
 
-                    <h2>{data.name}</h2>
+                    <h3>{data.name}</h3>
                   </div>
 
                   <div className="box3">
@@ -175,13 +179,17 @@ const SearchResults = () => {
                       e.preventDefault();
                       setMoreInfo(true);
                       setId(data.id);
-                      console.log(ticket.url);
                     }}
                   >
                     More info
                   </button>
                   {/* passing our addshow component that will handle the removal of adding user selected show into firebase */}
-                  <AddShow ticket={ticket} name={name} budget={budget} />
+                  <AddShow
+                    ticket={ticket}
+                    name={name}
+                    budget={budget}
+                    currentUser={currentUser}
+                  />
                 </div>
               </li>
             </ul>
@@ -193,17 +201,17 @@ const SearchResults = () => {
 
   //returning our rendered info named component, calling our getanswer function with our stored promised axios call
   return (
-    <div className="App wrapper">
+    <div className="App wrapper" key={data.id}>
       <form>
         <input
-          placeholder="Enter a list name"
+          placeholder="insert list name"
           type="text"
           onChange={(e) => {
             setName(e.target.value);
           }}
         ></input>
         <input
-          placeholder="Enter a budget"
+          placeholder="insert budget"
           type="number"
           onChange={(e) => {
             setBudget(e.target.value);
@@ -223,8 +231,8 @@ const SearchResults = () => {
             setTracker((prevCount) => prevCount + 1);
             setShow(true);
             getAnswer();
+            setCurrentUser(props.user.reloadUserInfo.localId);
           }}
-          className="searchBtn"
         >
           search
         </button>

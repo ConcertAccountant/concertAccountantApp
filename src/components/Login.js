@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "./Firebase";
+import SearchResults from "./SearchResults";
 
 function Login() {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -15,9 +16,11 @@ function Login() {
 
   const [user, setUser] = useState({});
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
 
   const register = async () => {
     try {
@@ -44,49 +47,52 @@ function Login() {
   };
 
   return (
-    <div className="login">
-      <div>
-        <h3>Register</h3>
-        <input
-          placeholder="email"
-          onChange={(e) => {
-            setRegisterEmail(e.target.value);
-          }}
-        ></input>
-        <input
-          placeholder="password"
-          onChange={(e) => {
-            setRegisterPassword(e.target.value);
-          }}
-        ></input>
+    <>
+      <div className="login">
+        <div>
+          <h3>Register</h3>
+          <input
+            placeholder="email"
+            onChange={(e) => {
+              setRegisterEmail(e.target.value);
+            }}
+          ></input>
+          <input
+            placeholder="password"
+            onChange={(e) => {
+              setRegisterPassword(e.target.value);
+            }}
+          ></input>
 
-        <button onClick={register}>create user</button>
+          <button onClick={register}>create user</button>
+        </div>
+
+        <div>
+          <h3>Login</h3>
+          <input
+            placeholder="email"
+            onChange={(e) => {
+              loginRegisterEmail(e.target.value);
+            }}
+          ></input>
+          <input
+            placeholder="password"
+            onChange={(e) => {
+              loginRegisterPassword(e.target.value);
+            }}
+          ></input>
+
+          <button onClick={login}>login</button>
+        </div>
+
+        <div>
+          <h3>User logged in</h3>
+          {user?.email}
+          <button onClick={logout}>logout</button>
+        </div>
       </div>
-
-      <div>
-        <h3>Login</h3>
-        <input
-          placeholder="email"
-          onChange={(e) => {
-            loginRegisterEmail(e.target.value);
-          }}
-        ></input>
-        <input
-          placeholder="password"
-          onChange={(e) => {
-            loginRegisterPassword(e.target.value);
-          }}
-        ></input>
-
-        <button onClick={login}>login</button>
-      </div>
-
-      <div>
-        <h3>User logged in</h3>
-        {user?.email}
-        <button onClick={logout}>logout</button>
-      </div>
-    </div>
+      <SearchResults user={user} />
+    </>
   );
 }
 

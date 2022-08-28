@@ -10,6 +10,9 @@ function App() {
     <div>
       <Header />
       <Login />
+      <div className="userHeading">
+        <h2>Personal list</h2>
+      </div>
       <GetList />
       {/* <SearchResults /> */}
     </div>

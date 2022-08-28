@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import EventDetails from "./EventDetails";
 
 function Userlist({ e }) {
   const [budget, setBudget] = useState("");
@@ -13,13 +14,26 @@ function Userlist({ e }) {
         const newObject = {};
         newObject.totalBudget = key;
         newObject.concerts = e[key];
+        newObject.budgetName = newObject.concerts[0];
         newArray.push(newObject);
       }
     }
     setBudgetCosts(newArray);
   }, []);
 
-  console.log(budgetCosts);
+  return (
+    <div>
+      {budgetCosts.map((e) => {
+        return (
+          <div className="userList">
+            <h3>{e.budgetName}</h3>
+            <h4>Budget: ${e.totalBudget}</h4>
+            <EventDetails e={e} />
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export default Userlist;

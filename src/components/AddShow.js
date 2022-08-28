@@ -11,8 +11,8 @@ const AddShow = (props) => {
 
   const moreUserSettings = {
     name: props.ticket.name,
-    min: props.ticket.max,
-    max: props.ticket.min,
+    max: props.ticket.max,
+    min: props.ticket.min,
   };
 
   console.log(moreUserSettings);

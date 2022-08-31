@@ -5,8 +5,10 @@ import UserList from './UserList';
 import { confirmPasswordReset } from 'firebase/auth';
 import { Link } from "react-router-dom";
 
-const GetList = () => {
+const GetPrivateList = (props) => {
     const [createdList, setCreatedList] = useState([]);
+
+    const [word, setWord] = useState("");
 
     useEffect(() => {
         const db = getDatabase(firebase);
@@ -21,7 +23,7 @@ const GetList = () => {
                 // console.log(data[key])
                 const budgetNames = data[key];
                 // console.log(subData)
-                for (let budgetName in budgetNames) {
+                if (key === `${props.user.uid}`) { for (let budgetName in budgetNames) {
                     const newObject = {budgetName:budgetName};
                     const budgetObject = budgetNames[budgetName];
                     for (let budgetCost in budgetObject) {
@@ -32,41 +34,47 @@ const GetList = () => {
                         for (let id in listId) {
                             const listDetails = listId[id];
                             arrayOfConcerts.push(listId[id])
-
                         } 
                     }
                     newArray.push(newObject)
-                }
+                }}
             }
             setCreatedList(newArray);
         })
-    }, [])
+    }, [word])
 
    
 
     return (
         <>
-                {createdList.map((e) => { 
-                    return (
-                        <section>
-                            <div className="wrapper">
-                                <h2>Public List Page</h2> 
+            <div>
+                <button onClick={(e) => {
+                    e.preventDefault();    
+                    setWord(props.user.uid);
+                }}>set
+                </button>
+            </div>
 
-                                <Link to="/components/SearchResults">Search For An Event</Link>
+            {createdList.map((e) => {
+                return (
+                    <section>
+                        <div className="wrapper">
+                            <h2>Your Private List</h2>
+                            <Link to="/components/SearchResults">Search For An Event</Link>
 
-                                <div className="publicListContainer" >
-                                    <ul className="publicList">
-                                        <li>
-                                            <UserList e={e} /> 
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div className="privateList">
+                                <ul>
+                                    <li><UserList e={e} /> </li>
+                                </ul>
                             </div>
-                        </section>
-                        )
-                })}
+                        </div>
+                    </section>
+                );
+            })}
         </>
     )
 }
 
-export default GetList;
+
+
+export default GetPrivateList;

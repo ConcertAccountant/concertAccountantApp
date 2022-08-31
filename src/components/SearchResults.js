@@ -1,8 +1,9 @@
-// import "./App.scss";
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import AddShow from "./AddShow";
+import { Link } from "react-router-dom";
 import { unstable_renderSubtreeIntoContainer } from "react-dom";
+
 const SearchResults = () => {
  const [ticket, setTicket] = useState({
     name: "",
@@ -35,11 +36,11 @@ const SearchResults = () => {
         format: "json",
         apikey: key,
         keyword: keyWord,
-        size: 10
+        size: 20
       },
     }).then((response) => {
-    //   console.log(response)
       const dataTest = response.data._embedded.events;
+      console.log(dataTest);
       setData(dataTest);
     }).catch((error) => {
       alert(error.message)
@@ -110,28 +111,25 @@ const SearchResults = () => {
         })
          })
   }, [id]);
-
+  
   //Named function to be called on an event that will display more information on out api call   
   const getMoreInfo = () => {
     return(
         <ul className="subMenu" key={ticket.name}>
-
-            <li><p>{ticket.address}</p></li>
-            <li><p>{ticket.timezone}</p></li>
-            <li><p>{ticket.time}</p></li>
+            <li><p><span>Address:</span> {ticket.address}</p></li>
+            <li><p><span>Timezone:</span> {ticket.timezone}</p></li>
+            <li><p><span>Event Time:</span> {ticket.time}</p></li>
             {
                 ticket.url === undefined
                 ?
                 <li><p>link not available</p></li>
                 :
-                <li><a href={ticket.url} target="_blank" rel="noreferrer">Ticket</a></li>
+                <li><a className="ticketLink"href={ticket.url} target="_blank" rel="noreferrer">See Tickets</a></li>
             }
-            
+             <AddShow ticket={ticket} name={name} budget={budget}/>
         </ul>
-
       )
   }
-
     //Named function that will map over our api array and return the relevant search results for our user.
   const renderInfo = () => {
     return data.map((data) => {
@@ -143,22 +141,17 @@ const SearchResults = () => {
                         <div className="box1">
                             <div className="box2">
                                 <img src={data.images[0].url} alt={data.name}/>
-
                                 <h3>{data.name}</h3>
                             </div>
-
                             <div className="box3">
                                 <h3>Date</h3>
                                 <p>{data.dates.start.localDate}</p>
-
                                 <h3 className="venueCity">Venue</h3>
                                 <p>{data._embedded.venues[0].city.name}</p>
                                 <p>{data._embedded.venues[0].name}</p>
                             </div>
                         </div>
-
                         {/* conditionally rendoring our call to the getmoreinfo function   */}
-
                         {/* error handle to due to some api calls not containing a price range object */}
                         <div className="box4">
                             <h3>Ticket Costs</h3>
@@ -174,12 +167,12 @@ const SearchResults = () => {
                                 <p>Minimum: ${Math.round(data.priceRanges[0].min)}</p>
                                 <p>Maximum: ${Math.round(data.priceRanges[0].max)}</p>
                             </div> 
-
                             }        
                         </div>
                         <div className="box5">
                             {/* event listener on our button to send the corresponding id stored in state as well as changing our moreInfo state to true */}
-                            <button onClick={(e) => {
+                            <button className="actionButton"
+                            onClick={(e) => {
                             e.preventDefault();    
                             setMoreInfo(!moreInfo);
                             setId(data.id)
@@ -188,7 +181,6 @@ const SearchResults = () => {
                             >More info
                             </button>
                             {/* passing our addshow component that will handle the removal of adding user selected show into firebase */}
-                            <AddShow ticket={ticket} name={name} budget={budget}/>
                         </div>
                     </li>
                     <div className="moreInfoDiv">
@@ -199,26 +191,35 @@ const SearchResults = () => {
         </section>
       )
   })}
-
     //returning our rendered info named component, calling our getanswer function with our stored promised axios call
   return (
     <div className="App wrapper">
-        <form>
-            <input placeholder="insert list name" type="text" onChange={(e) => { setName(e.target.value)}}></input>
-            <input placeholder="insert budget" type="number" onChange ={(e) => { setBudget(e.target.value)}}></input>
-            <input value={keyWord} placeholder="Search for an Event" type="text" onChange={(e) => {
-                setKeyWord(e.target.value)
-            }} ></input>
-            <button onClick={(e) => {
-                e.preventDefault()
-                setTracker(prevCount => prevCount +1);
-                setShow(true);
-                getAnswer();
-            }}>search</button>
-            {show ? renderInfo() : <React.Fragment />}
-        </form>
+      <ul>
+        <li><Link to="/">Home </Link></li>
+        <li><Link to="/components/GetList"> View the Public Lists</Link></li>
+        <li><Link to="/components/GetPrivateList"> View Your Private Lists</Link></li>
+
+      </ul>
+     
+      <form>
+          <input placeholder="insert list name" type="text" onChange={(e) => { setName(e.target.value)}}></input>
+          <input placeholder="insert budget" type="number" onChange ={(e) => { setBudget(e.target.value)}}></input>
+          <input value={keyWord} placeholder="Search for an Event" type="text" onChange={(e) => {
+              setKeyWord(e.target.value)
+              console.log(setKeyWord)
+          }} ></input>
+          <button 
+              className="actionButton"
+              onClick={(e) => {
+              e.preventDefault()
+              setTracker(prevCount => prevCount +1);
+              setShow(true);
+              getAnswer();
+          }}>search</button>
+          {show ? renderInfo() : <React.Fragment />}
+      </form>
     </div>
   );
 }
-
 export default SearchResults;
+

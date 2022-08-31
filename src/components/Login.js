@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from './Firebase';
 import SearchResults from "./SearchResults";
+import GetPrivateList from './GetPrivateList';
+import GetList from './GetList';
+import { Link} from "react-router-dom";
 
 function Login () {
     
@@ -15,7 +18,7 @@ function Login () {
     useEffect (() => { onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
     })
-}, []);
+}, [user]);
 
     const register = async () => {
         try {
@@ -36,8 +39,10 @@ function Login () {
     }
 
     return (
+
         <>
         <div className="login">
+
             <div>
                 <h3>Register</h3>
                 <input placeholder="email" onChange={(e) => {
@@ -67,9 +72,24 @@ function Login () {
                 {user?.email}
                 <button onClick={logout}>logout</button>
             </div>
+
         </div>
-        {/* <SearchResults user={user} /> */}
+        <ul>
+            <li><Link to="/components/SearchResults">Search For An Event</Link></li>
+            <li> <Link to="/components/GetList">View the Public Lists</Link></li>
+        </ul>
+       
+           
+
+        {/* 
+
+        <section>
+            <div className="privateListContainer wrapper">
+                <GetPrivateList user={user}/> 
+            </div>
+        </section> */}
         </>
+
     )
 }
 

@@ -2,8 +2,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddShow from "./AddShow";
-import Login from "./Login";
 import { unstable_renderSubtreeIntoContainer } from "react-dom";
+import Login from "./Login";
+import { Link } from "react-router-dom";
 
 const SearchResults = (props) => {
   const [ticket, setTicket] = useState({
@@ -38,6 +39,25 @@ const SearchResults = (props) => {
   //api key
   const key = `0TsZKUciU5HKm4ylnIBkwVoD8U4aPAgY`;
 
+  // pagination
+  // const [posts, setPosts] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [postsPerPage, setpostsPerPage] = useState(10);
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     setLoading(true);
+  //     const res = await axios.get(
+  //       "https://app.ticketmaster.com/discovery/v2/events"
+  //     );
+  //     setPosts(res.data);
+  //     setLoading(false);
+  //   };
+  //   fetchPosts();
+  //   console.log(posts);
+  // }, []);
+
   //asynchronous axios call with an await to get our api call when we want
   const getAnswer = async () => {
     await axios({
@@ -50,12 +70,10 @@ const SearchResults = (props) => {
         keyword: keyWord,
         size: 10,
       },
-<<<<<<< HEAD
     })
       .then((response) => {
         const dataTest = response.data._embedded.events;
         setData(dataTest);
-        console.log(data);
       })
       .catch((error) => {
         alert(error.message);
@@ -63,17 +81,6 @@ const SearchResults = (props) => {
   };
 
   //use effect axios call to store our api in the id state
-=======
-    }).then((response) => {
-      const dataTest = response.data._embedded.events;
-      setData(dataTest);
-    }).catch((error) => {
-      alert(error.message)
-    });
-  } 
-  
-    //use effect axios call to store our api in the id state
->>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
   useEffect(() => {
     axios({
       url: `https://app.ticketmaster.com/discovery/v2/events/${id}`,
@@ -98,6 +105,12 @@ const SearchResults = (props) => {
                 }
               ),
         timezone: id === "" ? "n/a" : response.data.dates.timezone,
+        // {
+        //   day: "2-digit",
+        //   month: "2-digit",
+        //   year: "2-digit",
+        // }
+
         address:
           id === "" ? "n/a" : response.data._embedded.venues[0].address.line1,
         url: id === "" ? "n/a" : response.data._embedded.venues[0].url,
@@ -117,8 +130,8 @@ const SearchResults = (props) => {
   const getMoreInfo = () => {
     return (
       <ul className="subMenu" key={ticket.name}>
-        <li>
-          <p>{ticket.address}</p>
+        <li className="menuAddress">
+          <h3>{ticket.address}</h3>
         </li>
         <li>
           <p>{ticket.timezone}</p>
@@ -128,15 +141,21 @@ const SearchResults = (props) => {
         </li>
         {ticket.url === undefined ? (
           <li>
-            <p>link not available</p>
+            <p>Link not available</p>
           </li>
         ) : (
           <li>
             <a href={ticket.url} target="_blank" rel="noreferrer">
-              Ticket
+              See Tickets
             </a>
           </li>
         )}
+        <AddShow
+          ticket={ticket}
+          name={name}
+          budget={budget}
+          currentUser={currentUser}
+        />
       </ul>
     );
   };
@@ -165,9 +184,7 @@ const SearchResults = (props) => {
                     <p>{data._embedded.venues[0].name}</p>
                   </div>
                 </div>
-
                 {/* conditionally rendoring our call to the getmoreinfo function   */}
-
                 {/* error handle to due to some api calls not containing a price range object */}
                 <div className="box4">
                   <h3>Ticket Costs</h3>
@@ -184,24 +201,20 @@ const SearchResults = (props) => {
                   )}
                 </div>
                 <div className="box5">
-                  {data.id === ticket.id && getMoreInfo()}
                   {/* event listener on our button to send the corresponding id stored in state as well as changing our moreInfo state to true */}
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      setMoreInfo(true);
+                      setMoreInfo(!moreInfo);
                       setId(data.id);
                     }}
+                    className="searchBtn"
                   >
                     More info
                   </button>
-                  {/* passing our addshow component that will handle the removal of adding user selected show into firebase */}
-                  <AddShow
-                    ticket={ticket}
-                    name={name}
-                    budget={budget}
-                    currentUser={currentUser}
-                  />
+                </div>{" "}
+                <div className="moreInfoDiv ">
+                  {data.id === ticket.id && moreInfo ? getMoreInfo() : null}
                 </div>
               </li>
             </ul>
@@ -214,16 +227,28 @@ const SearchResults = (props) => {
   //returning our rendered info named component, calling our getanswer function with our stored promised axios call
   return (
     <div className="App wrapper" key={data.id}>
+      <ul>
+        <li>
+          <Link to="/">Home </Link>
+        </li>
+        <li>
+          <Link to="/components/GetList"> View the Public Lists</Link>
+        </li>
+
+        <li>
+          <Link to="/components/GetPrivateList"> View Your Private Lists</Link>
+        </li>
+      </ul>
       <form>
         <input
-          placeholder="insert list name"
+          placeholder="Enter a list name"
           type="text"
           onChange={(e) => {
             setName(e.target.value);
           }}
         ></input>
         <input
-          placeholder="insert budget"
+          placeholder="Enter a budget"
           type="number"
           onChange={(e) => {
             setBudget(e.target.value);
@@ -238,18 +263,29 @@ const SearchResults = (props) => {
           }}
         ></input>
         <button
+          className="searchBtn"
           onClick={(e) => {
             e.preventDefault();
             setTracker((prevCount) => prevCount + 1);
             setShow(true);
+            {
+              name === "" || budget === 0 || budget === "0"
+                ? alert("Please enter list name")
+                : setShow();
+            }
             getAnswer();
-            setCurrentUser(props.user.reloadUserInfo.localId);
+            setCurrentUser(props.user.uid);
+            console.log(currentUser);
           }}
         >
           search
         </button>
+
         {show ? renderInfo() : <React.Fragment />}
       </form>
+      <div className="userHeading">
+        <h2>Personal List</h2>
+      </div>
     </div>
   );
 };

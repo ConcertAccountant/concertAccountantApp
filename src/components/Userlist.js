@@ -22,22 +22,49 @@ function Userlist({ e }) {
   }, []);
 
   return (
-    <div>
+    <>
       {budgetCosts.map((e) => {
+        console.log(e);
         return (
-          <div className="userList">
-            <h3>{e.budgetName}</h3>
-            <h4>Budget: ${e.totalBudget}</h4>
-            <EventDetails e={e} />
-          </div>
+          <>
+            {e.totalBudget > 500 ? (
+              <>
+                <h2>Over $500 Lists</h2>
+                <div className="userList">
+                  <h3 className="listTitle">List name: {e.budgetName}</h3>
+                  <h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
+                  <EventDetails e={e} />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    remove
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>Under $500 Lists</h2>
+                <div className="userList">
+                  <h3 className="listTitle">List name: {e.budgetName}</h3>
+                  <h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
+                  <EventDetails e={e} />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    remove
+                  </button>
+                </div>
+              </>
+            )}
+          </>
         );
       })}
-    </div>
+    </>
   );
 }
 
-<<<<<<< HEAD
 export default Userlist;
-=======
-export default Userlist;
->>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8

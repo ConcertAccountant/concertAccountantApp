@@ -12,16 +12,8 @@ const AddShow = (props) => {
   const moreUserSettings = {
     name: props.ticket.name,
     max: props.ticket.max,
-<<<<<<< HEAD
     min: props.ticket.min,
   };
-=======
-    min: props.ticket.min
-  }
-
-
-  console.log(moreUserSettings)
->>>>>>> 5025f8d9cb6aa5e6f87be8602e0f1ea4e1826ac8
 
   console.log(moreUserSettings);
 
@@ -50,6 +42,7 @@ const AddShow = (props) => {
             e.preventDefault();
             myList();
           }}
+          className="searchBtn"
         >
           Save
         </button>
@@ -57,7 +50,9 @@ const AddShow = (props) => {
           onClick={(e) => {
             e.preventDefault();
             handleRemove();
-          }}>
+          }}
+          className="searchBtn"
+        >
           remove
         </button>
       </div>

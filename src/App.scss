@@ -231,7 +231,8 @@ $bodyFont: normal;
 }
 
 body {
-  background-color: $tertiary;
+  background-color: #1d2228;
+  color: white;
   font-family: $font;
   font-weight: $bodyFont;
 }
@@ -257,15 +258,202 @@ a,
 img,
 p,
 h1,
+h2,
 h3 {
   margin: 0;
   padding: 0;
 }
+
+a {
+  text-decoration: none;
+  color: white;
+  &:hover {
+    color: #fb8122;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+/* input,
+ {
+  width: 100%;
+  max-width: 50%;
+  margin: 0 auto;
+} */
 //#endregion BASE STYLES END
 
 //#region TYPOGRAPHY STYLES
 //#endregion TYPOGRAPHY STYLES
+
 //#region HEADER STYLES
+header {
+  margin-top: 5%;
+  line-height: 1.8;
+  h1 {
+    text-transform: uppercase;
+  }
+}
+//#endregion HEADER STYLES
+
+//#region INPUT STYLES
+.authorization {
+  text-align: center;
+  .login {
+    margin-top: 5%;
+    > input,
+    button {
+      border-radius: 4px;
+      border: 1px solid $fontColor;
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-size: 1rem;
+      width: 30%;
+      max-width: 50%;
+      margin: 0 auto 1rem;
+    }
+    button {
+      box-shadow: inset 0 0 0 0 white;
+      transition: ease-out 0.4s;
+      border: none;
+      border-radius: 4px;
+      background-color: #fb8122;
+      text-transform: uppercase;
+      color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        box-shadow: inset 600px 0 0 0 white;
+        cursor: pointer;
+        color: $fontColor;
+      }
+    }
+  }
+  .register,
+  .login {
+    display: flex;
+    flex-direction: column;
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    /* > input,
+    button {
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 50%;
+      margin: 0 auto 1rem;
+    } */
+    /* .signUpModal {
+      display: flex;
+      justify-content: center;
+    } */
+    .signUpBtn {
+      max-width: fit-content;
+      padding: 5px 10px;
+      // border: 1px solid $secondary;
+      border-radius: 5px;
+      margin-left: 5px;
+      box-shadow: inset 0 0 0 0 white;
+      transition: ease-out 0.4s;
+      border: none;
+      border-radius: 4px;
+      margin-left: 5px;
+      text-transform: uppercase;
+      background-color: #fb8122;
+      color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        box-shadow: inset 400px 0 0 0 white;
+        cursor: pointer;
+        color: $fontColor;
+      }
+    }
+  }
+  .signUpModal,
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    a {
+      color: $fontColor;
+    }
+  }
+  .overlay {
+    text-transform: uppercase;
+    background: rgba(49, 49, 49, 0.8);
+    display: flex;
+    justify-content: center;
+    .register {
+      position: absolute;
+      top: 30%;
+      // left: 30%;
+      margin: 0 auto;
+      background-color: #1d2228;
+      padding: 2rem;
+      border-radius: 5px;
+      width: 90%;
+      max-width: 600px;
+      min-width: 300px;
+      // z-index: 5;
+      > input,
+      button {
+        border-radius: 4px;
+        border: 1px solid $fontColor;
+
+        padding: 10px;
+        font-size: 1rem;
+
+        max-width: 60%;
+        margin: 0 auto 1rem;
+
+        width: 60%;
+
+        // max-width: 0%;
+      }
+      .signUpBtn {
+        max-width: 60%;
+        margin: 0 auto;
+      }
+      .closeSignUp {
+        max-width: fit-content;
+        padding: 5px 10px;
+        position: absolute;
+        right: 2rem;
+
+        // border: 1px solid $secondary;
+        border-radius: 5px;
+        margin-left: 5px;
+        box-shadow: inset 0 0 0 0 white;
+        transition: ease-out 0.4s;
+        border: none;
+        border-radius: 4px;
+        text-transform: uppercase;
+        background-color: #fb8122;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        &:hover {
+          box-shadow: inset 200px 0 0 0 white;
+          cursor: pointer;
+          color: $fontColor;
+        }
+      }
+    }
+  }
+}
+
+body.active-modal {
+  overflow-y: hidden;
+}
 //#endregion HEADER STYLES
 
 //#region INPUT STYLES
@@ -274,6 +462,11 @@ h3 {
 //#region SEARCH RESULTS SECTION STYLES
 .container {
   border: 1px solid black;
+
+  // box-shadow: 0 3px 6px 0 rgb(0, 0, 0);
+  box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
+  border-radius: 20px;
+
   height: 200px;
   width: 100%;
   display: flex;
@@ -325,12 +518,55 @@ h3 {
   }
 }
 
-.login {
-  border: 2px solid dodgerblue;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
+.moreInfoDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border-top: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.listBtn {
+  box-shadow: inset 0 0 0 0 white;
+  transition: ease-out 0.4s;
+  border: none;
+  border-radius: 4px;
+  margin-left: 5px;
+  padding: 3px 10px;
+  background-color: #fb8122;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    box-shadow: inset 200px 0 0 0 white;
+    cursor: pointer;
+    color: $fontColor;
+  }
+}
+
+.searchBtn {
+  box-shadow: inset 0 0 0 0 white;
+  transition: ease-out 0.4s;
+  border: none;
+  border-radius: 4px;
+  margin-left: 5px;
+  padding: 3px 10px;
+  background-color: #fb8122;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    box-shadow: inset 200px 0 0 0 white;
+    cursor: pointer;
+    color: $fontColor;
+  }
+}
+
+.hideInfoDiv {
+  display: none;
 }
 
 .userList {
@@ -342,7 +578,7 @@ h3 {
   margin: 50px auto;
   flex-direction: column;
   text-align: center;
-  width: 70%;
+  width: 81%;
   flex-wrap: wrap;
   h3 {
     text-transform: uppercase;
@@ -357,10 +593,108 @@ h3 {
   margin: 50px auto;
 }
 
-//#region MORE INFO STYLES
-// .subMenu{
-//   border: 1px solid purple;
+// .box5{
+//   border: 1px solid black;
 // }
+
+//#region MORE INFO STYLES
+.subMenu {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  li {
+    // padding-top: 5px;
+    padding-bottom: 10px;
+  }
+  .menuAddress {
+    font-weight: bold;
+  }
+}
 //#endregion MORE INFO STYLES
 
 //#endregion SEARCH RESULTS SECTION STYLES
+
+//#region media queries
+@media (max-width: 450px) {
+  .authorization {
+    .register,
+    .login {
+      > input,
+      button {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+//#endregion media queries
+
+.publicListHeading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    padding-bottom: 10px;
+  }
+}
+
+.publicListContainer {
+  box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
+  background-color: #1d2228;
+  border-radius: 20px;
+  display: flex;
+  margin-top: 50px;
+}
+
+.privateListContainer {
+  // box-shadow: 0 3px 6px 0 rgb(0, 0, 0);
+  display: flex;
+  border-radius: 20px;
+  margin-top: 50px;
+}
+
+.publicList,
+.privateList {
+  // box-shadow: 0 3px 6px 0 rgb(0, 0, 0);
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 20px 40px;
+  width: calc((100% / 2) - 80px);
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  button {
+    box-shadow: inset 0 0 0 0 white;
+    transition: ease-out 0.4s;
+    border: none;
+    border-radius: 4px;
+    margin: 10px auto;
+    padding: 3px 10px;
+    background-color: #fb8122;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      box-shadow: inset 200px 0 0 0 white;
+      cursor: pointer;
+      color: $fontColor;
+    }
+  }
+}
+
+.eventDetails {
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+.listTitle {
+  margin: 10px;
+}
+
+.budgetTitle {
+  margin: 10px;
+}

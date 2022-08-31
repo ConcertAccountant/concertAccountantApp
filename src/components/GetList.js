@@ -4,7 +4,9 @@ import { firebase } from "./Firebase";
 import Userlist from "./Userlist";
 import { confirmPasswordReset } from "firebase/auth";
 
-const GetList = () => {
+import { Link } from "react-router-dom";
+
+const GetList = (props) => {
   const [createdList, setCreatedList] = useState([]);
 
   const { word, setWord } = useState([]);
@@ -42,6 +44,7 @@ const GetList = () => {
           newArray.push(newObject);
         }
       }
+      console.log(props.user);
 
       // console.log(newArray)
 
@@ -53,19 +56,28 @@ const GetList = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <div className="publicListHeading">
+        <h2>Public List Page</h2>
+        <Link to="/components/SearchResults">Return to Search Results</Link>
+      </div>
+
       {createdList.map((e) => {
         return (
-          <div>
-            <ul>
-              <li>
-                <Userlist e={e} />{" "}
-              </li>
-            </ul>
-          </div>
+          <section>
+            <div className="wrapper">
+              <div className="publicListContainer">
+                <ul className="publicList">
+                  <li>
+                    <Userlist e={e} />{" "}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
         );
       })}
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import EventDetails from "./EventDetails";
+import PrivateEventDetails from "./PrivateEventDetails";
 
-function Userlist ({e, currentUser}) {
+function PrivateUserlist ({e, currentUser}) {
 
 const [budget, setBudget] = useState("")
 
@@ -34,7 +34,7 @@ return(
 						<div className="userList">
 							<h3 className="listTitle">List name: {e.concerts[0].budgetname}</h3>
 							<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
-							<EventDetails e={e}/>
+							<PrivateEventDetails e={e} currentUser={currentUser}/>
 						</div>
 					</>
 					: 
@@ -43,7 +43,7 @@ return(
 						<div className="userList">
 							<h3 className="listTitle">List name: {e.concerts[0].budgetname}</h3>
 							<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
-							<EventDetails e={e}/>
+							<PrivateEventDetails e={e} currentUser={currentUser}/>
 						</div>
 					</>
 		
@@ -57,4 +57,4 @@ return(
    
 }
 
-export default Userlist;
+export default PrivateUserlist;

@@ -1,58 +1,34 @@
-import { useState } from "react";
-import { getDatabase, push, ref, remove, set, update } from 'firebase/database';
-import { firebase } from './Firebase';
+import { getDatabase, push, ref, update } from "firebase/database";
 
 const AddShow = (props) => {
-  const [userInput, setUserInput] = useState("");
-
-  const handleInputChange = (e) => {
-    setUserInput(e.target.value);
-  };
 
   const moreUserSettings =   
   {
     name: props.ticket.name,
-    min: props.ticket.max,
-    max: props.ticket.min
+    max: props.ticket.max,
+    min: props.ticket.min,
+    budgetname: props.name,
+    budgetcost: props.budget
   }
-
-
-  console.log(moreUserSettings);
-
 
   const myList = () => {
     // Create a new post reference with an auto-generated id
     const db = getDatabase();
-    const postListRef = ref(db, `/${props.currentUser}/${props.name}/${props.budget}`);
+    const postListRef = ref(db, `/${props.userId}/${props.name}/${props.budget}`);
     const newPostRef = push(postListRef);
     update(newPostRef, moreUserSettings)
-  };
-
-  const handleRemove = () => {
-    const database = getDatabase(firebase);
-    const dbRef = ref(database);
-    remove(dbRef, props.ticket);
   };
 
   return (
     <section>
       <div className="wrapper">
         <button
+        className="actionButton"
           onClick={(e) => {
-            e.preventDefault();
-            myList();
-          }}
-        >
-          Save
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleRemove();
-          }}
-        >
-          remove
-        </button>
+          e.preventDefault();
+          myList();
+          }}>Save
+          </button>
       </div>
     </section>
   );

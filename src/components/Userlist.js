@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import EventDetails from "./EventDetails";
 
-function Userlist ({e}) {
+function Userlist ({e, currentUser}) {
 
 const [budget, setBudget] = useState("")
 
@@ -15,59 +15,36 @@ useEffect(() => {
             const newObject = {}
             newObject.totalBudget = key;
             newObject.concerts = e[key];
-            newObject.budgetName = newObject.concerts[0];
             newArray.push(newObject);
         }
     }
     setBudgetCosts(newArray);
-}, [])
+}, [e])
 
 return(
     <>
 		{budgetCosts.map((e) => {
-			console.log(e)
 			return(
 				<>
 				{
 					e.totalBudget > 500 
 					? 
 					<>
-					<h2>Over $500 Lists</h2>
-				<div className="userList">
-					<h3 className="listTitle">
-					List name: {e.budgetName}
-					</h3>
-					<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
-					<EventDetails e={e}/>
-					<button
-					
-                    onClick={(e) => {
-                    e.preventDefault();
-                    }}
-                    >remove
-              
-					</button>
-				</div>
-					
+						<h2>Over $500 Lists</h2>
+						<div className="userList">
+							<h3 className="listTitle">List name: {e.concerts[0].budgetname}</h3>
+							<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
+							<EventDetails e={e}/>
+						</div>
 					</>
 					: 
 					<> 
-					<h2>Under $500 Lists</h2>
-				<div className="userList">
-					<h3 className="listTitle">
-					List name: {e.budgetName}
-					</h3>
-					<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
-					<EventDetails e={e}/>
-					<button
-					
-                    onClick={(e) => {
-                    e.preventDefault();
-                    }}
-                    >remove
-              
-					</button>
-				</div>
+						<h2>Under $500 Lists</h2>
+						<div className="userList">
+							<h3 className="listTitle">List name: {e.concerts[0].budgetname}</h3>
+							<h4 className="budgetTitle">Budget Set: ${e.totalBudget}</h4>
+							<EventDetails e={e}/>
+						</div>
 					</>
 		
 				}
@@ -77,7 +54,7 @@ return(
 	</>
 )
 
-
+   
 }
 
 export default Userlist;

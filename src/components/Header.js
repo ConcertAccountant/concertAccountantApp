@@ -1,23 +1,16 @@
-import Nav from "./Nav";
-
 const Header = () => {
     return(
-        <>
-            <Nav />
-            <header>
-                <div className="wrapper">
-                    <h1>
-                        Concert Accountant
-                    </h1>
-                    <h2>
-                        Financially Prepare for your Year
-                    </h2>
-                </div>
-            </header>
-        </>
+        <header>
+            <div className="wrapper">
+                <h1>
+                    Concert Accountant
+                </h1>
+                <h2>
+                    Financially Prepare for your Year
+                </h2>
+            </div>
+        </header>
     )
-
-
 }
 
 export default Header;

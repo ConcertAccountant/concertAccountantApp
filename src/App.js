@@ -1,28 +1,24 @@
 import "./App.scss";
+import Nav from "./components/Nav";
 import Header from "./components/Header";
 import SearchResults from "./components/SearchResults";
 import GetList from "./components/GetList";
 import GetPrivateList from "./components/GetPrivateList";
-import { FaBeer } from 'react-icons/fa';
 import Login from "./components/Login";
-import { Link, Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
+import Footer from "./components/Footer";
 
-function App({user}) {
+function App() {
   return(
-    <div>
-
-      <Header />  
-      {/* <Login /> */}
-
-
+    <div> 
       <Routes>
-          <Route path="/" element={<Login/>} />
-          <Route path="/components/SearchResults" element={<SearchResults user={user} />} />
-          <Route path="/components/GetList" element={<GetList user={user}/>}/> 
-          <Route path="/components/GetPrivateList" element={<GetPrivateList user={user}/> } />
-       
+          <Route path="/" element={<Login />} />
+          <Route path="/SearchResults" element={<SearchResults />} />
+          <Route path="/GetList" element={<GetList />}/>
+          <Route path="/GetPrivateList" element={<GetPrivateList /> } />
       </Routes>  
+      <Footer />
     </div>
   )
 }
-export default App; 
+export default App;

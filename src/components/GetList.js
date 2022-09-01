@@ -1,79 +1,71 @@
 import { useEffect, useState } from 'react';
-import { getDatabase, ref, onValue, remove } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import {firebase} from './Firebase';
 import Userlist from './Userlist';
-import { Link } from "react-router-dom";
-import { confirmPasswordReset } from 'firebase/auth';
+import { useSearchParams } from "react-router-dom";
+import Nav from './Nav';
+import Header from './Header';
 
 const GetList = () => {
     const [createdList, setCreatedList] = useState([]);
 
-    const {word, setWord} = useState([]);
+    const [currentUser, setCurrentUser] = useState('');
+
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        setCurrentUser((searchParams.get("userid")));
+      }, [])
 
     useEffect(() => {
         const db = getDatabase(firebase);
         const dbRef = ref(db);
         onValue(dbRef, (res) => {
             const newArray = [];
-            // const newerArray =[];
             const data = res.val();
-            // console.log(data)
             for(let key in data){
-                // newArray.push({key:key, value:data[key]});
-                // console.log(data[key])
                 const budgetNames = data[key];
-                // console.log(subData)
                 for (let budgetName in budgetNames) {
                     const newObject = {budgetName:budgetName};
                     const budgetObject = budgetNames[budgetName];
                     for (let budgetCost in budgetObject) {
                         newObject[budgetCost] = []
                         const arrayOfConcerts = newObject[budgetCost] 
-                        arrayOfConcerts.push(budgetName)
                         const listId = budgetObject[budgetCost]
                         for (let id in listId) {
                             const listDetails = listId[id];
+                            listDetails.id = id
                             arrayOfConcerts.push(listId[id])
-                            // for (let details in listDetails) {
-                            //     const currentDetail = listDetails[details];
-                            //     newBudgetObject[details] = currentDetail;
-                            // }
-
                         } 
                     }
                     newArray.push(newObject)
                 }
             }
-
-            // console.log(newArray)
-           
-            // for(let key in newArray){
-            //     newerArray.push({key:key, value:newArray[key]})
-            // }
             setCreatedList(newArray);
         })
     }, [])
 
     return (
-        <>
-        {createdList.map((e) => { 
-            return (
-                <section>
-                    <div className='wrapper'>
-                        <h2>Public List Page</h2>
-                    
-                        <div className='publicListContainer'>
-                            <ul className='publicList'>
-                                <li>
-                                    <Userlist e={e} /> 
-                                </li>
-                            </ul>
+    
+        <><Nav user={currentUser} /><Header /><h2>Public List Page</h2><div>
+            {createdList.map((e) => {
+                return (
+                    <section>
+                        <div className='wrapper'>
+                            <div className='publicListContainer'>
+                                <ul className='publicList'>
+                                    <li key={e.budgetName} className='listChild'>
+                                        <Userlist e={e} currentUser={currentUser} />
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </section>
-                )
-        })}
-        </>
+                    </section>
+
+                );
+            })}
+        </div></>
+                
     )
 }
 

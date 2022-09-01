@@ -1,20 +1,14 @@
 import React from 'react';
-import Login from './Login';
 import { Link } from 'react-router-dom';
 
-const Nav = ({ user, logout }) => {
+const Nav = ({ user }) => {
   return (
     <>
-        <div className='wrapper navBar'>
-            <h3>User logged in</h3>
-            {user?.email}
-            <button onClick={logout}>logout</button>
-        </div>
-        <ul>
-            <li><Link to="/">Home </Link></li>
-            <li><Link to="/components/GetList"> View the Public Lists</Link></li>
-            <li><Link to="/components/GetPrivateList"> View Your Private Lists</Link></li>
-            <li><Link to="/components/SearchResults">Search For An Event</Link></li>
+        <ul className='wrapper linkStyle'>
+            <li><Link to={{pathname:"/", search:`?userid=${user}`}}>Home </Link></li>
+            <li><Link to={{pathname:"/SearchResults", search:`?userid=${user}`}}>Search</Link></li>
+            <li><Link to={{pathname:"/GetList", search:`?userid=${user}`}}>Public Lists</Link></li>
+            <li><Link to={{pathname:"/GetPrivateList", search:`?userid=${user}`}}>Private Lists</Link></li>
       </ul>
     </>
   )

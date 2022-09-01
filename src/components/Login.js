@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from './Firebase';
-import SearchResults from "./SearchResults";
-import GetPrivateList from "./GetPrivateList";
-import GetList from "./GetList";
 import { Link } from "react-router-dom";
+import {auth} from './Firebase';
+import Nav from "./Nav";
+import Header from "./Header";
 
 function Login () {
     
@@ -12,71 +11,74 @@ function Login () {
     const [registerPassword, setRegisterPassword] = useState("");
     const [loginEmail, loginRegisterEmail] = useState("");
     const [loginPassword, loginRegisterPassword] = useState("");
-
+    const [email, setEmail] = useState("");
+    const [ modal, setModal ] = useState(false);
     const [user, setUser] = useState({});
 
-    const [ modal, setModal ] = useState(false);
-
     useEffect (() => { onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
+        setUser(currentUser.uid);
+        setEmail(currentUser)
     })
-}, [user]);
+    }, [user]);
 
-// console.log(user.uid);
+    console.log(user)
 
     const register = async () => {
         try {
-            const newUser = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+           const user =  await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
         } catch (error) {
         }
     }
 
     const login = async () => {
         try {
-            const newUser = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+          const user =  await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
         } catch (error) {
         }
     }
 
     const logout = async () => {
         await signOut(auth);
+        setUser(null)
+        setEmail(null)
     }
 
     const toggleModal = () => {
         setModal(!modal);
     }
-
+    
     if(modal) {
-        document.body.classList.add('active-modal');
+      document.body.classList.add('active-modal');
     } else {
-        document.body.classList.remove('active-modal');
+      document.body.classList.remove('active-modal');
     }
 
     return (
         <>
-        
-{/* 
-        <div>
-            <h3>User logged in</h3>
-            {user?.email}
-            <button onClick={logout}>logout</button>
-        </div> */}
-
+        <Nav user={user}/> 
+        <Header />
             <div className="authorization wrapper">
                 <div className="login">
                     <h3>Login</h3>
-                    <input placeholder="email" onChange={(e) => {
+                    <input 
+                        placeholder="email" 
+                        onChange={(e) => {
                         loginRegisterEmail(e.target.value);
-                    } }></input>
-                    <input placeholder="password" onChange={(e) => {
-                        loginRegisterPassword(e.target.value);
-                    } }></input>
+                        }}>
+                    </input>
 
-                    <button 
-                    onClick={login}
-                    disabled={!(loginEmail  && loginPassword)}
-                    >Log In
-                    </button>
+                    <input 
+                        placeholder="password" 
+                        onChange={(e) => {
+                        loginRegisterPassword(e.target.value);
+                        }}>
+                    </input>
+                    
+                    {/* <Link  onClick={login} className="loginButton"
+                    disabled={!(loginEmail  && loginPassword)} to={{pathname:"/SearchResults", search:`?userid=${user}`}}>Log In</Link> */}
+
+                    <button onClick={login} className="loginButton"
+                    disabled={!(loginEmail  && loginPassword)}>Log In</button>
 
                     <p>
                         Don't have an account? 
@@ -84,58 +86,55 @@ function Login () {
                         onClick={toggleModal}
                         className="signUpBtn"> 
                         Sign Up
-                            {/* <a href=""> Sign Up</a> */}
                         </button>
                     </p>
+
+                    
+            <h3 className="userLog">User logged in</h3>
+            <p className="userEmail">{email?.email}</p>
+            <button onClick={logout} className="logoutBtn">logout</button>
+         
                 </div>
 
                 {
                     modal && (
                         <div className="signUpModal">
-                            <div 
-                            className="overlay"
-                            // onClick={toggleModal}
-                            >
-                            {/* </div> */}
+                            <div className="overlay">
                                 <div className="register">
                                     <h3>Register</h3>
-                                    <input placeholder="email" onChange={(e) => {
+                                    <input 
+                                        placeholder="email" 
+                                        onChange={(e) => {
                                         setRegisterEmail(e.target.value);
-                                    } }>
+                                        }}>
                                     </input>
-                                    <input placeholder="password" onChange={(e) => {
+
+                                    <input 
+                                        placeholder="password" 
+                                        onChange={(e) => {
                                         setRegisterPassword(e.target.value);
-                                    } }>
+                                        }}>
                                     </input>
-                                    <button 
-                                    onClick={register}
-                                    disabled={!(registerEmail  && registerPassword)}
-                                    // onClick={toggleModal}
-                                    className="signUpBtn"> 
-                                    Sign Up
-                                    </button>
+                                    
+                                    {/* <Link onClick={register}
+                                        disabled={!(registerEmail  && registerPassword)}
+                                        className="signUpBtn" to={{pathname:"/SearchResults", search:`?userid=${user}`}}>Sign Up</Link> */}
+
+                                    <button onClick={register}
+                                        disabled={!(registerEmail  && registerPassword)}
+                                        className="signUpBtn">Sign Up</button>
+
                                     <button
-                                    className="closeSignUp"
-                                    onClick={toggleModal}>
-                                        X
+                                        className="closeSignUp"
+                                        onClick={toggleModal}
+                                        >X
                                     </button>
-
-                                    {/* <button 
-                                    onClick={register}
-                                    >
-                                        Create User
-                                    </button> */}
                                 </div>
-
                             </div>
                         </div>
                     )
                 }
-            
             </div>
-            {/* <SearchResults user={user} />
-            <GetList />
-            <GetPrivateList user={user} /> */}
         </>
     )
 }
